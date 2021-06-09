@@ -1,0 +1,33 @@
+h1 {
+  color: #000;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+nav li {
+  float: left;
+}
+
+nav a {
+  color: #fff;
+  display: block;
+  font-family: arial;
+  padding: 10px 10px;
+  text-decoration: none;
+}
+
+nav a:hover{
+  background-color: none;
+}
+
+.jumbotron{
+  background-image:url("/static/about/img/bannerAbout.png");
+  background-position: center;
+  background-size: cover;
+  height: 350px
+}

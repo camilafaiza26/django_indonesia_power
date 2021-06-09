@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="display-4 text-light text-bold">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h2>Cari Data :</h2>
+  </div>
+<div class="container justify-content-center align-items-center">
+
+    <form method="post" action="" class="form-inline">
+      {% csrf_token %}
+     <div class="form-row align-items-center">
+          <select class="custom-select my-1 mr-sm-2" id="pltu" name="pltu" required>
+            <option selected disabled value="">Nama PLTU :</option>
+            {% for blog in data2 %}
+            <option value="{{blog.nama_pltu}}">{{blog.nama_pltu}}</option>
+            {% endfor %}
+          </select>
+          <select class="custom-select my-1 mr-sm-2" id="kolom" name="kolom" required>
+            <option value="konfirmasi_rakor">Konfirmasi Rakor</option>
+            <option value="time_arrival">Time Arrival</option>
+            <option value="completed_unloading">Completed Unloading</option>
+          </select>
+          <input placeholder="Tanggal Awal :" type="text" class="form-control datepicker mr-sm-2" id="datepicker15" name="tgl_awal">
+          <input placeholder="Tanggal Akhir :" type="text" class="form-control datepicker mr-sm-2" id="datepicker16" name="tgl_akhir">
+          <input class="btn btn-success my-1 mr-sm-2" type="submit" name="carirekap" value="Cari"></input>
+          <input class="btn btn-success my-1 mr-sm-2" type="submit" name="export" value="Export Excel"></input>
+      </div>
+    </form>
+  </div>
+<br>
+<form method="POST" action="tambah/" class="form">
+  <div align="right">
+
+    {% csrf_token %}
+    <label for="">Navigasi : </label>
+    <button class="btn btn-primary" type="submit">Tambah</button>
+</div>
+  <br>
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar form-inline">
+    {% load humanize %}
+    {% localize off %}
+    <table id="tabelrekap" class="tableFixHead text-center table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-light">
+      <tr class="fit">
+        <th rowspan="2">PLTU</th>
+        <th rowspan="2">No</th>
+        <th rowspan="2">Periode</th>
+        <th rowspan="2">BBO ID</th>
+        <th rowspan="2">Shipment Code</th>
+        <th rowspan="2">Voyage Code</th>
+        <th rowspan="2">Voyage</th>
+        <th rowspan="2">Pemasok</th>
+        <th>KETERANGAN</th>
+        <th rowspan="2">Sumber Tambang</th>
+        <th rowspan="2">Loading Port</th>
+        <th rowspan="2">Unloading Port</th>
+        <th rowspan="2">TB</th>
+        <th rowspan="2">BG</th>
+        <th rowspan="2">Konfirmasi Rakor</th>
+        <th rowspan="2">Time Arrival</th>
+        <th rowspan="2">Status Laycan</th>
+        <th rowspan="2">Batas Maks Nor Accepted</th>
+        <th rowspan="2">Nor Accepted PLTU</th>
+        <th colspan="2">Despatch / Demurrage</th>
+        <th rowspan="2">Berthed Time</th>
+        <th rowspan="2">Commenced Unloading</th>
+        <th rowspan="2">Start Cleaning</th>
+        <th rowspan="2">Completed Unloading</th>
+        <th rowspan="2">Cast Off</th>
+        <th colspan="4">Gangguan (Jam)</th>
+        <th colspan="2">Volume</th>
+        <th rowspan="2" colspan="2">Initial Draught Survey</th>
+        <th rowspan="2" colspan="2">Lift Off Loader</th>
+        <th rowspan="2" colspan="2">Final Draught Survey</th>
+        <th rowspan="2" colspan="2">Port Stay</th>
+        <th rowspan="2">Berthing Time</th>
+        <th colspan="7">Non Operation Time</th>
+        <th rowspan="2">Waktu Tunggu Sandar</th>
+        <th rowspan="2">Waktu Bongkar</th>
+        <th rowspan="2">Waktu Cleaning</th>
+        <th colspan="2">Flowrate</th>
+        <th rowspan="2"  class="table-primary">Status Umpire</th>
+        <th colspan="10" class="table-success">RoA Loading</th>
+        <th colspan="23" class="table-warning">CoA Loading</th>
+        <th colspan="48" class="table-primary">CoA Unloading</th>
+        <th colspan="27" class="table-success">Lab IP</th>
+        <th colspan="4" class="table-warning">Quick Test</th>
+        <th rowspan="3">Action</th>
+      </tr>
+      <tr class="fit">
+        <th>TRANSHIPMENT/SHIFTING/….</th>
+        <th>Keterangan</th>
+        <th>Biaya</th>
+        <th>Coal Handling Facility</th>
+        <th>Kendala Eksternal</th>
+        <th>Force Majeur</th>
+        <th>Gangguan Pengurang Flowrate</th>
+        <th>B/L</th>
+        <th>DS</th>
+        <th>Initial Draught</th>
+        <th>Waiting Commenced</th>
+        <th>Persiapan Bongkar</th>
+        <th>Lift Off Loader</th>
+        <th>Final Draught</th>
+        <th>Waiting Cast Off</th>
+        <th>Persiapan Cast Off</th>
+        <th>Gross</th>
+        <th>Nett</th>
+        <th>GCV ARB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>VM ADB</th>
+        <th>FC ADB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>HGI</th>
+        <th>GCV ARB</th>
+        <th>GCV ADB</th>
+        <th>GCV DB</th>
+        <th>GCV DAFB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>Ash Content DB</th>
+        <th>VM ARB</th>
+        <th>VM ADB</th>
+        <th>VM DB</th>
+        <th>VM DAFB</th>
+        <th>FC ARB</th>
+        <th>FC ADB</th>
+        <th>FC DB</th>
+        <th>FC DAFB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur ADB</th>
+        <th>Total Sulphur DB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>HGI</th>
+        <th>IDT Reducing</th>
+        <th>GCV ARB</th>
+        <th>GCV ADB</th>
+        <th>GCV DB</th>
+        <th>GCV DAFB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>Ash Content DB</th>
+        <th>VM ARB</th>
+        <th>VM ADB</th>
+        <th>VM DB</th>
+        <th>VM DAFB</th>
+        <th>FC ARB</th>
+        <th>FC ADB</th>
+        <th>FC DB</th>
+        <th>FC DAFB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur ADB</th>
+        <th>Total Sulphur DB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>C ADB</th>
+        <th>H ADB</th>
+        <th>N ADB</th>
+        <th>N DAFB</th>
+        <th>O ADB</th>
+        <th>HGI</th>
+        <th colspan="4">Sizing (%)</th>
+        <th colspan="11">Ash Analysis (%)</th>
+        <th>Slagging Factor</th>
+        <th>Fouling Factor</th>
+        <th>IDT Reducing</th>
+        <th>HT Reducing</th>
+        <th>HT Oxidizing</th>
+        <th>Hg ARB</th>
+        <th>GCV ARB</th>
+        <th>GCV ADB</th>
+        <th>GCV DB</th>
+        <th>GCV DAFB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>Ash Content DB</th>
+        <th>VM ARB</th>
+        <th>VM ADB</th>
+        <th>VM DB</th>
+        <th>VM DAFB</th>
+        <th>FC ARB</th>
+        <th>FC ADB</th>
+        <th>FC DB</th>
+        <th>FC DAFB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur ADB</th>
+        <th>Total Sulphur DB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>C ADB</th>
+        <th>H ADB</th>
+        <th>N ADB</th>
+        <th>N DAFB</th>
+        <th>O ADB</th>
+        <th>HGI</th>
+        <th>GCV ARB</th>
+        <th>TM ARB</th>
+        <th>Ash Content ARB</th>
+        <th>Total Sulphur ARB</th>
+      </tr>
+      </thead>
+      <thead>
+        <tr class="">
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th> Rupiah </th><th></th><th></th><th></th><th></th><th></th><th>Hours</th><th>Hours</th><th>Hours</th><th>Hours</th><th> MT </th><th> MT </th><th>Start</th><th>Finish</th><th>Start</th><th>Finish</th><th>Start</th><th>Finish</th><th> Day </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th>Hours</th><th>Hours</th><th>Hours</th><th>MT/Hours</th><th>MT/Hours</th><th></th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>index</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>index</th><th>°C</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>index</th><th>70 mm</th><th>50 mm</th><th>32 mm</th><th>2,38 mm</th><th>SiO2</th><th>Al2O3</th><th>Fe2O3</th><th>CaO</th><th>MgO</th><th>Na2O</th><th>K2O</th><th>TiO2</th><th>SO3</th><th>MnO2</th><th>P2O5</th><th></th><th></th><th>°C</th><th>°C</th><th>°C</th><th></th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>%</th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>Index</th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for blog in data1 %}
+      <tr class="fit">
+        <td hidden>{{blog.tm_id}}</td>
+        <td>{{blog.pltu}}</td>
+        <td>{{blog.no}}</td>
+        <td>{{blog.periode}}</td>
+        <td>{{blog.bbo_id}}</td>
+        <td>{{blog.shipment_code}}</td>
+        <td>{{blog.voyage_code}}</td>
+        <td>{{blog.voyage}}</td>
+        <td>{{blog.nama_pemasok}}</td>
+        <td>{{blog.transhipment_shifting}}</td>
+        <td>{{blog.sumber_tambang}}</td>
+        <td>{{blog.loading_port}}</td>
+        <td>{{blog.unloading_port}}</td>
+        <td>{{blog.tb}}</td>
+        <td>{{blog.bg}}</td>
+        <td>{{blog.konfirmasi_rakor|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.time_arrival|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.status_laycan}}</td>
+        <td>{{blog.batas_maks_not_accepted|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.nor_accepted_pltu|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.despatch_demurrage_keterangan}}</td>
+        <td>{{blog.despatch_demurrage_biaya|floatformat:2|intcomma}}</td>
+        <td>{{blog.berthed_time|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.commenced_unloading|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.start_cleaning|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.completed_unloading|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.cast_off|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.gangguan_jam_coal_handling_facility}}</td>
+        <td>{{blog.gangguan_jam_kendala_eksternal}}</td>
+        <td>{{blog.gangguan_jam_force_majeur}}</td>
+        <td>{{blog.gangguan_jam_gangguan_pengurang_flowrate}}</td>
+        <td>{{blog.volume_b_l}}</td>
+        <td>{{blog.volume_ds}}</td>
+        <td>{{blog.initial_draught_surve_start|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.initial_draught_surve_finish|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.lift_off_loader_start|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.lift_off_loader_finish|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.final_draught_survey_start|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.final_draught_survey_fiinish|date:'d/m/Y H:i'}}</td>
+        <td>{{blog.port_stay_day}}</td>
+        <td>{{blog.port_stay_hour}}</td>
+        <td>{{blog.berthing_time}}</td>
+        <td>{{blog.initial_draught}}</td>
+        <td>{{blog.waiting_commenced}}</td>
+        <td>{{blog.persiapan_bongkar}}</td>
+        <td>{{blog.lift_off_loader}}</td>
+        <td>{{blog.final_draught}}</td>
+        <td>{{blog.waiting_cast_off}}</td>
+        <td>{{blog.persiapan_cast_off}}</td>
+        <td>{{blog.waktu_tunggu_sandar}}</td>
+        <td>{{blog.waktu_bongkar}}</td>
+        <td>{{blog.waktu_cleaning}}</td>
+        <td>{{blog.flowrate_gross_mt_hours}}</td>
+        <td>{{blog.flowrate_nett_mt_hours}}</td>
+        <td>{{blog.status_umpire}}</td>
+        <td>{{blog.roaloading_gcv_arb_kcal_kg}}</td>
+        <td>{{blog.roaloading_tm_arb}}</td>
+        <td>{{blog.roaloading_im_adb}}</td>
+        <td>{{blog.roaloading_ash_content_arb}}</td>
+        <td>{{blog.roaloading_ash_content_adb}}</td>
+        <td>{{blog.roaloading_vm_adb}}</td>
+        <td>{{blog.roaloading_fc_adb}}</td>
+        <td>{{blog.roaloading_total_sulphur_arb}}</td>
+        <td>{{blog.roaloading_total_sulphur_dafb}}</td>
+        <td>{{blog.roaloading_hgi_index}}</td>
+        <td>{{blog.coaloading_gcv_arb_kcal_kg}}</td>
+        <td>{{blog.coaloading_gcv_adb_kcal_kg}}</td>
+        <td>{{blog.coaloading_gcv_db_kcal_kg}}</td>
+        <td>{{blog.coaloading_gcv_dafb_kcal_kg}}</td>
+        <td>{{blog.coaloading_tm_arb}}</td>
+        <td>{{blog.coaloading_im_adb}}</td>
+        <td>{{blog.coaloading_ash_content_arb}}</td>
+        <td>{{blog.coaloading_ash_content_adb}}</td>
+        <td>{{blog.coaloading_ash_content_db}}</td>
+        <td>{{blog.coaloading_vm_arb}}</td>
+        <td>{{blog.coaloading_vm_adb}}</td>
+        <td>{{blog.coaloading_vm_db}}</td>
+        <td>{{blog.coaloading_vm_dafb}}</td>
+        <td>{{blog.coaloading_fc_arb}}</td>
+        <td>{{blog.coaloading_fc_adb}}</td>
+        <td>{{blog.coaloading_fc_db}}</td>
+        <td>{{blog.coaloading_fc_dafb}}</td>
+        <td>{{blog.coaloading_total_sulphur_arb}}</td>
+        <td>{{blog.coaloading_total_sulphur_adb}}</td>
+        <td>{{blog.coaloading_total_sulphur_db}}</td>
+        <td>{{blog.coaloading_total_sulphur_dafb}}</td>
+        <td>{{blog.coaloading_hgi_index}}</td>
+        <td>{{blog.coaloading_idt_reducing_c}}</td>
+        <td>{{blog.coaunloading_gcv_arb_kcal_kg}}</td>
+        <td>{{blog.coaunloading_gcv_adb_kcal_kg}}</td>
+        <td>{{blog.coaunloading_gcv_db_kcal_kg}}</td>
+        <td>{{blog.coaunloading_gcv_dafb_kcal_kg}}</td>
+        <td>{{blog.coaunloading_tm_arb}}</td>
+        <td>{{blog.coaunloading_im_adb}}</td>
+        <td>{{blog.coaunloading_ash_content_arb}}</td>
+        <td>{{blog.coaunloading_ash_content_adb}}</td>
+        <td>{{blog.coaunloading_ash_content_db}}</td>
+        <td>{{blog.coaunloading_vm_arb}}</td>
+        <td>{{blog.coaunloading_vm_adb}}</td>
+        <td>{{blog.coaunloading_vm_db}}</td>
+        <td>{{blog.coaunloading_vm_dafb}}</td>
+        <td>{{blog.coaunloading_fc_arb}}</td>
+        <td>{{blog.coaunloading_fc_adb}}</td>
+        <td>{{blog.coaunloading_fc_db}}</td>
+        <td>{{blog.coaunloading_fc_dafb}}</td>
+        <td>{{blog.coaunloading_total_sulphur_arb}}</td>
+        <td>{{blog.coaunloading_total_sulphur_adb}}</td>
+        <td>{{blog.coaunloading_total_sulphur_db}}</td>
+        <td>{{blog.coaunloading_total_sulphur_dafb}}</td>
+        <td>{{blog.coaunloading_c_adb}}</td>
+        <td>{{blog.coaunloading_h_adb}}</td>
+        <td>{{blog.coaunloading_n_adb}}</td>
+        <td>{{blog.coaunloading_n_dafb}}</td>
+        <td>{{blog.coaunloading_o_adb}}</td>
+        <td>{{blog.coaunloading_hgi_index}}</td>
+        <td>{{blog.coaunloading_sizing_70mm}}</td>
+        <td>{{blog.coaunloading_sizing_50mm}}</td>
+        <td>{{blog.coaunloading_sizing_32mm}}</td>
+        <td>{{blog.coaunloading_sizing_2_38mm}}</td>
+        <td>{{blog.coaunloading_ashanalysis_sio2}}</td>
+        <td>{{blog.coaunloading_ashanalysis_ai2o3}}</td>
+        <td>{{blog.coaunloading_ashanalysis_fe2o3}}</td>
+        <td>{{blog.coaunloading_ashanalysis_cao}}</td>
+        <td>{{blog.coaunloading_ashanalysis_mgo}}</td>
+        <td>{{blog.coaunloading_ashanalysis_na2o}}</td>
+        <td>{{blog.coaunloading_ashanalysis_k2o}}</td>
+        <td>{{blog.coaunloading_ashanalysis_tio2}}</td>
+        <td>{{blog.coaunloading_ashanalysis_so3}}</td>
+        <td>{{blog.coaunloading_ashanalysis_mno2}}</td>
+        <td>{{blog.coaunloading_ashanalysis_p2o5}}</td>
+        <td>{{blog.coaunloading_slagging_factor}}</td>
+        <td>{{blog.coaunloading_fouling_factor}}</td>
+        <td>{{blog.coaunloading_idt_reducing_c}}</td>
+        <td>{{blog.coaunloading_ht_reducing_c}}</td>
+        <td>{{blog.coaunloading_ht_oxidizing_c}}</td>
+        <td>{{blog.coaunloading_hg_arb}}</td>
+        <td>{{blog.labip_gcv_arb_kcal_kg}}</td>
+        <td>{{blog.labip_gcv_adb_kcal_kg}}</td>
+        <td>{{blog.labip_gcv_db_kcal_kg}}</td>
+        <td>{{blog.labip_gcv_dafb}}</td>
+        <td>{{blog.labip_tm_arb}}</td>
+        <td>{{blog.labip_im_adb}}</td>
+        <td>{{blog.labip_ash_content_arb}}</td>
+        <td>{{blog.labip_ash_content_adb}}</td>
+        <td>{{blog.labip_ash_content_db}}</td>
+        <td>{{blog.labip_vm_arb}}</td>
+        <td>{{blog.labip_vm_adb}}</td>
+        <td>{{blog.labip_vm_db}}</td>
+        <td>{{blog.labip_vm_dafb}}</td>
+        <td>{{blog.labip_fc_arb}}</td>
+        <td>{{blog.labip_fc_adb}}</td>
+        <td>{{blog.labip_fc_db}}</td>
+        <td>{{blog.labip_fc_dafb}}</td>
+        <td>{{blog.labip_total_sulphur_arb}}</td>
+        <td>{{blog.labip_total_sulphur_adb}}</td>
+        <td>{{blog.labip_total_sulphur_db}}</td>
+        <td>{{blog.labip_total_sulphur_dafb}}</td>
+        <td>{{blog.labip_c_adb}}</td>
+        <td>{{blog.labip_h_adb}}</td>
+        <td>{{blog.labip_n_adb}}</td>
+        <td>{{blog.labip_n_dafb}}</td>
+        <td>{{blog.labip_o_adb}}</td>
+        <td>{{blog.labip_hgi_index}}</td>
+        <td>{{blog.quicktest_gcv_arb_kcal_kg}}</td>
+        <td>{{blog.quicktest_tm_arb}}</td>
+        <td>{{blog.quicktest_ahs_content_arb}}</td>
+        <td>{{blog.quicktest_total_sulphur_arb}}</td>
+        <td> <a href="editrekap/{{ blog.tm_id }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Ubah</i></button></a>
+          <a href="hapusrekap/{{ blog.tm_id }}"><button type="button" class="btn btn-danger my-1 mr-sm-2" ><i class="far fa-trash-alt">Hapus</i></button></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endlocalize %}
+  </div>
+  </form>
+  <br>
+{% endblock content-1 %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}

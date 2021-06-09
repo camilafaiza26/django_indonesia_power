@@ -1,0 +1,7 @@
+{% for tahun in querytahunumum %}
+{% if tahun.tahun == queryEdit.waktu.tahun %}
+    <option value="{{tahun.tahun}}" selected>{{tahun.tahun}}</option>
+{% else %}
+    <option value="{{tahun.tahun}}">{{tahun.tahun}}</option>
+{% endif %}
+{% endfor %}

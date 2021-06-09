@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="text-center">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h1 align="center" class="text-dark">Edit Data Master Solver</h1>
+  </div>
+  <div class="container justify-content-center">
+    <br>
+    <!--<form action="" class="form-inline">
+      {% csrf_token %}
+      <div class="form-row align-items-center">
+      </div>
+    </form>-->
+    {% for queryEdit in queryEditMasterSolver %}
+    <form method="POST" action="updatemastersolver/{{queryEdit.kontrakpemasok_id}}" class="form-inline">
+    <!--<div id="container justify-content-center align-items-center">-->
+      {% csrf_token %}
+
+      <br>
+
+  </div>
+<br>
+
+
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="tabelgrading" class="text-center table-striped table-bordered table-sm mb-0" word-wrap="break-word" table-layout="fixed" width="100%">
+    <thead class="thead-light">
+      <tr class="">
+        <th style="min-width: 230px;">PLTU</th>
+        <th style="min-width: 250px;">Pemasok</th>
+        <th style="min-width: 330px;">Sumber Tambang</th>
+        <th>GCV kCal/kg</th>
+        <th style="min-width: 90px;">Jenis</th>
+        <th>TS (%)</th>
+        <th>FOB (Rp/MT)</th>
+        <th>Moda</th>
+        <th>Freight Cost (Rp/MT)</th>
+        <th>CIF (Rp/MT)</th>
+        <th>CIF (Rp/Cal)</th>
+        <th style="min-width: 90px;">Triwulan</th>
+        <th style="min-width: 100px;">Tahun</th>
+        <th></th>
+      </tr>
+      </thead>
+      <thead>
+        {% localize off %}
+        <th><select class="custom-select my-1 mr-sm-2" name="pltu" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for pltu in queryPLTU %}
+            {% if pltu.pltu_id == queryEdit.pltu_id %}
+            <option value="{{pltu.nama_pltu}}" selected>{{pltu.nama_pltu}}</option>
+            {% else %}
+            <option value="{{pltu.nama_pltu}}">{{pltu.nama_pltu}}</option>
+            {% endif %}
+          {% endfor %}
+        </select></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="pemasok" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for pemasok in queryPemasok %}
+            {% if pemasok.pemasok_id == queryEdit.pemasok_id %}
+                <option value="{{pemasok.nama_pemasok}}" selected>{{pemasok.nama_pemasok}}</option>
+            {% else %}
+                <option value="{{pemasok.nama_pemasok}}">{{pemasok.nama_pemasok}}</option>
+            {% endif %}
+          {% endfor %}
+        </select></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="nama_sumber_tambang" required>
+            <option selected disabled value="">Pilih...</option>
+            {% for st in querySumberTambang %}
+            {% if st.nama_sumber_tambang == queryEdit.nama_sumber_tambang %}
+                <option value="{{st.nama_sumber_tambang}}" selected>{{st.nama_sumber_tambang}}</option>
+            {% else %}
+                <option value="{{st.nama_sumber_tambang}}">{{st.nama_sumber_tambang}}</option>
+            {% endif %}
+          {% endfor %}
+        </select></th>
+        <th><input type="number" step="1" min="0" name="gcv_kcal_kg" value="{{queryEdit.gcv_kcal_kg}}" required></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="jenis_bb" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for i in queryJenisbbDistinct %}
+            {% if i.jenis_bb == queryEdit.jenis_bb %}
+                <option value="{{i.jenis_bb}}" selected>{{i.jenis_bb}}</option>
+            {% else %}
+                <option value="{{i.jenis_bb}}">{{i.jenis_bb}}</option>
+            {% endif %}
+          {% endfor %}
+        </select></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" name="ts_persen" value="{{queryEdit.ts_persen}}" required></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="fob_rp_mt" value="{{queryEdit.fob_rp_mt}}" required></th>
+        <th><input type="text" name="moda" value="{{queryEdit.moda}}" required></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="freight_cost_rp_mt" value="{{queryEdit.freight_cost_rp_mt}}" required></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="cif_rp_mt" value="{{queryEdit.cif_rp_mt}}" required></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="cif_rp_cal" value="{{queryEdit.cif_rp_cal}}" required></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="triwulan" required>
+          <option selected disabled value="">Pilih...</option>
+          {% if queryEdit.waktu.tahun == 2019 %}
+
+          {% for tw in querytw2019 %}
+            {% if tw.triwulan == queryEdit.waktu.triwulan %}
+                <option value="{{tw.triwulan}}" selected>{{tw.triwulan}}</option>
+            {% else %}
+                <option value="{{tw.triwulan}}">{{tw.triwulan}}</option>
+            {% endif %}
+          {% endfor %}
+
+          {% else %}
+          {% for tw in querytwumum %}
+            {% if tw.triwulan == queryEdit.waktu.triwulan %}
+                <option value="{{tw.triwulan}}" selected>{{tw.triwulan}}</option>
+            {% else %}
+                <option value="{{tw.triwulan}}">{{tw.triwulan}}</option>
+            {% endif %}
+          {% endfor %}
+          {% endif %}
+
+        </select></th>
+
+        <th>
+          {% if queryEdit.waktu.tahun == 2019 %}
+          <select class="custom-select my-1 mr-sm-2" name="waktu" required>
+            <option selected disabled value="">Pilih...</option>
+            <option value="{{queryEdit.waktu.tahun}}" selected>{{queryEdit.waktu.tahun}}</option>
+          </select>
+            {% elif queryEdit.waktu.tahun != 2019 %}
+            <input type="number" step="1" min="2020" name="waktu" value="{{queryEdit.waktu.tahun}}" required>
+
+
+            {% endif %}
+
+          {% endlocalize %}
+        </th>
+        <th>
+          <button class="btn btn-primary float-right" type="submit">Simpan</button>
+        </th>
+
+      </tr>
+    </thead>
+      {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+
+
+  </form>
+  <br>
+{% endblock content-1 %}

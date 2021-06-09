@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="text-left">{{judul}}</h1>
+<p class="lead text-left">kontributor : {{kontributor}}</p>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h1 align="center">Edit Data Master Waktu</h1>
+  </div>
+  <div class="container justify-content-center">
+    <br>
+    <!--<form action="" class="form-inline">
+      {% csrf_token %}
+      <div class="form-row align-items-center">
+      </div>
+    </form>-->
+    {% for queryEdit in queryEditMasterWaktu %}
+    <form method="POST" action="updatemasterwaktu/{{queryEdit.waktu_id}}" class="form-inline">
+    <!--<div id="container justify-content-center align-items-center">-->
+      {% csrf_token %}
+
+      <br>
+
+  </div>
+<br>
+
+
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="tabelgrading" class="text-center table-striped table-bordered table-sm mb-0" word-wrap="break-word" table-layout="fixed" width="100%">
+    <thead class="thead-light">
+      <tr class="">
+        <th>Waktu Mulai</th>
+        <th >Waktu Selesai</th>
+        <th >Triwulan</th>
+        <th>Tahun</th>
+        <th>Aksi</th>
+      </tr>
+      <tr class="">
+        {% localize off %}
+        <td><input placeholder="Edit {{queryEdit.waktu_mulai}}..." type="text" class="form-control datepicker mr-sm-2"  name="waktu_mulai" id="datepickerwaktumulai" required></td>
+        <td ><input placeholder="Edit {{queryEdit.waktu_selesai}}..." type="text" class="form-control datepicker mr-sm-2"  name="waktu_selesai" id="datepickerwaktuselesai" required></td>
+
+        <td ><select class="custom-select my-1 mr-sm-2" name="triwulan" required>
+          <option selected disabled value="">Pilih...</option>
+          {% if queryEdit.tahun == 2019 %}
+
+          {% for tw in querytw2019 %}
+            {% if tw.triwulan == queryEdit.triwulan %}
+                <option value="{{tw.triwulan}}" selected>{{tw.triwulan}}</option>
+            {% else %}
+                <option value="{{tw.triwulan}}">{{tw.triwulan}}</option>
+            {% endif %}
+          {% endfor %}
+
+          {% else %}
+          {% for tw in querytwumum %}
+            {% if tw.triwulan == queryEdit.triwulan %}
+                <option value="{{tw.triwulan}}" selected>{{tw.triwulan}}</option>
+            {% else %}
+                <option value="{{tw.triwulan}}">{{tw.triwulan}}</option>
+            {% endif %}
+          {% endfor %}
+          {% endif %}
+
+        </select></td>
+        <td>
+          {% if queryEdit.tahun == 2019 %}
+          <select class="custom-select my-1 mr-sm-2" name="tahun" required>
+            <option selected disabled value="">Pilih...</option>
+            <option value="{{queryEdit.tahun}}" selected>{{queryEdit.tahun}}</option>
+          </select>
+            {% elif queryEdit.tahun != 2019 %}
+            <input type="number" step="1" min="2020" name="tahun" value="{{queryEdit.tahun}}" required>
+
+
+            {% endif %}
+        </td>
+        <td> <button class="btn btn-primary float-right" type="submit">Simpan</button>
+        </td>
+      </tr>
+      </thead>
+      {% endlocalize %}
+
+
+      {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+
+
+  </form>
+  <br>
+{% endblock content-1 %}

@@ -1,0 +1,57 @@
+{% load static %}
+
+<script>
+  $(document).ready(function(){
+  $('#logout').click(function(){
+    var checkstr =  confirm('Anda yakin ingin logout?');
+    if(checkstr == true){
+      document.getElementById("form_logout").submit();
+    }else{
+      return false;
+    }
+});
+});
+</script>
+<nav class="navbar fixed-top navbar-expand-md navbar-dark" id="myNav">
+  <a class="navbar-brand" href="/"><img src="{% static 'img/logo.png' %}" width="100" height="30" class="d-inline-block align-top" alt="" loading="lazy"></a>
+  <h6 class="text-light">{{user}}</h6>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/grading">Penilaian Pemasok</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/blog">Rekap Shipment</a>
+      </li>
+      {% if user.is_superuser %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item text-dark" href="/master">Master Grading</a>
+          <a class="dropdown-item text-dark" href="/about">Master Solver</a>
+        </ul>
+      </li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/about/inputsolver">Solver</a>
+      </li>
+      <li class="nav-item">
+        <form id="form_logout" name="logoutname" method="POST">
+          {% csrf_token %}
+          <a href="#" class="nav-link btn btn-primary btn-sm text-light sign-out-button" id="logout">Logout<input type="hidden" name="logout"></a>
+          <!--<a class="nav-link" href="#" id="logout">Logout</a>
+          <a class="nav-link" href="javascript:;" onclick="document.getElementById('form_logout').submit()">Submit</a>
+          <a href="javascript:{}" onclick="document.getElementById('form_logout').submit();">submit</a>
+          <input type="submit" name="logout">-->
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>

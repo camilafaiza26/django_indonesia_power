@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "master/css/styles.css" %}">
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="display-4 text-light text-bold">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+<div class="container">
+  <br>
+  <h2>Data Pemasok</h2>
+  {% for master in data1 %}
+  <form method="post" action="updatepemasok/{{master.pemasok_id}}" class="form-inline justify-content-center">
+    {% csrf_token %}
+    <div class="form-row">
+        <label class="my-1 mr-sm-2">Nama Pemasok : </label>
+        <input type="text" class="form-control my-1 mr-sm-2" name="nama_pemasok"  value="{{master.nama_pemasok}}" required>
+        <select class="custom-select my-1 mr-sm-2" id="jenis_bb" name="jenis_bb" required>
+          <option selected value="{{master.jenis_bb}}">{{master.jenis_bb}}</option>
+          <option value="LRC">LRC</option>
+          <option value="MRC">MRC</option>
+        </select>
+        <select class="custom-select my-1 mr-sm-2" id="kontrak" name="kontrak" required>
+          <option selected value="{{master.kontrak}}">{{master.kontrak}}</option>
+          <option value="Coa Unloading">Coa Unloading</option>
+          <option value="Coa Loading">Coa Loading</option>
+          <option value="Roa Loading">Roa Loading</option>
+        </select>
+        <select class="custom-select my-1 mr-sm-2" id="ts" name="ts" required>
+          <option selected value="{{master.ts}}">{{master.ts}}</option>
+          <option value="ARB">ARB</option>
+          <option value="DAFB">DAFB</option>
+        </select>
+        <button class="btn btn-primary" type="submit">Simpan</button>
+    </div>
+  </form>
+  {% endfor %}
+</div>
+<br>
+{% endblock content-1 %}

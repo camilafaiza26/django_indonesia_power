@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="text-center">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h1 align="center" class="text-dark">Edit Range Pasokan</h1>
+  </div>
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <form method="POST" action="" class="form-inline">
+      {% csrf_token %}
+      <div class="form-row align-items-center">
+
+        {% for i in querySetRencana %}
+        <h4><span class="badge badge-primary">{{i.pltu.nama_pltu}}</span>
+          <input type="hidden" name="pltu" value="{{i.pltu.nama_pltu}}" />
+          {% endfor %}
+        </div>
+
+  </div>
+<br>
+
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="tabelgrading" class="tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-light">
+      <tr class="">
+        <th rowspan="2">Pemasok</th>
+        <th colspan="3">Minimal</th>
+        <th colspan="3">Maksimal</th>
+      </tr>
+      <tr class="">
+        <th>Volume</th>
+        <th>Kali Per Bulan</th>
+        <th>Total Per Bulan</th>
+        <th>Volume</th>
+        <th>Kali Per Bulan</th>
+        <th>Total Per Bulan</th>
+      </tr>
+      </thead>
+    <tbody>
+      {% localize off %}
+      {% for i in queryAmbilRangePasokan %}
+      <tr class="">
+        <th><input type="text" name="pemasok" value="{{i.pemasok.nama_pemasok}}" ></th>
+        <th><input type="number" name="minimal_volume" value="{{i.minimal_volume}}" ></th>
+        <th><input type="number" name="minimal_kali_perbulan" min="0" step="1" value="{{i.minimal_kali_perbulan}}" ></th>
+        <th><input type="number" name="minimal_total_perbulan" placeholder="Terisi Otomatis" value="" readonly="readonly"></th>
+        <th><input type="number" name="maksimal_volume" value="{{i.maksimal_volume}}" ></th>
+        <th><input type="number" name="maksimal_kali_perbulan" min="0" step="1" value="{{i.maksimal_kali_perbulan}}" ></th>
+        <th><input type="number" name="maksimal_total_perbulan" placeholder="Terisi Otomatis" value="" readonly="readonly"></th>
+
+      </tr>
+      {% endfor %}
+      <tr>
+        <td><label class="my-1 mr-sm-2" for="tgl_akhir">TOTAL :</label></td>
+
+      <td></td>
+      <td></td>
+      <td><input type="text" name="totalvolmin" value="{{total_min}}" disabled></td>
+      <td></td>
+      <td></td>
+      <td><input type="text" name="totalvolmax" value="{{total_max}}" disabled></td>
+    </tr>
+    {% endlocalize %}
+      <tr>
+        <td>
+          <input class="btn btn-primary my-1 mr-sm-2" type="submit" name="simpanrangepasokan" value="SIMPAN"></input>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <br>
+{% endblock content-1 %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="text-center">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h1 align="center" class="text-dark">Edit Data Rencana Kebutuhan</h1>
+  </div>
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <form method="POST" action="" class="form-inline">
+      {% csrf_token %}
+      <div class="form-row align-items-center">
+        {% localize off %}
+
+        {% for i in querySetRencana %}
+        <h4><span class="badge badge-primary">{{i.pltu.nama_pltu}}</span>
+          <input type="hidden" name="pltu" value="{{i.pltu.nama_pltu}}" />
+        </div>
+
+  </div>
+<br>
+
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="tabelgrading" class=" tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+      <thead class="thead-light">
+        <tr class="">
+          <th>Rencana Komposisi BB</th>
+          <th>Persentase (%)</th>
+        </tr>
+
+        <tr class="">
+
+          <th>MRC</th>
+          <th><input type="number" name="persentase_rencana_mrc_persen" value="{{i.persentase_rencana_mrc_persen}}" min="0" max="100" step="1" ></th>
+        </tr>
+        <tr class="">
+          <th>LRC</th>
+          <th><input type="number" name="persentase_rencana_lrc_persen" value="{{i.persentase_rencana_lrc_persen}}" min="0" max="100" step="1" ></th>
+        </tr>
+        <tr class="">
+          <th>===========================</th>
+          <th>===========================</th>
+        </tr>
+        <tr class="">
+          <th>Input Rencana BB (MT)</th>
+          <th><input type="number" name="input_bb_mt" value="{{i.input_bb_mt}}" min="0" step="1" ></th>
+        </tr>
+        <tr class="">
+          <th>Input Rencana Nilai Kalor (kCal/kg)</th>
+          <th><input type="number" name="input_nilai_kalor_kcal_kg" value="{{i.input_nilai_kalor_kcal_kg}}" min="0" step="1" ></th>
+        </tr>
+        <tr class="">
+          <th>Input Rencana Total Sulphur (%)</th>
+          <th><input type="text" name="input_total_sulphur" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.001" min="0" value="{{i.input_total_sulphur}}" ></th>
+        </tr>
+        </thead>
+        {% endfor %}
+      <tbody>
+        {% endlocalize %}
+        <tr>
+          <td colspan="2">
+            <input class="btn btn-primary my-1 mr-sm-2" type="submit" name="simpanrencanasolver" value="SIMPAN"></input>
+            </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br>
+{% endblock content-1 %}

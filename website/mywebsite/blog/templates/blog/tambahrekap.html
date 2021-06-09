@@ -1,0 +1,600 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="display-4 text-light text-bold">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h3 align="center">Tambah Rekap Shipment</h3>
+  </div>
+<!--   <div class="container justify-content-center align-items-center">
+    <br>
+    <form action="" class="form-inline">
+      {% csrf_token %}
+     <div class="form-row align-items-center">
+
+          <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Nama PLTU :</label>
+          <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" required>
+            <option selected readonly="readonly" value="{{blog.a}}">Pilih...</option>
+            {% for blog in data2 %}
+            <option value="{{blog.nama_pltu}}">{{blog.nama_pltu}}</option>
+            {% endfor %}
+          </select>
+
+          <label class="my-1 mr-sm-2" for="tgl_awal">Tanggal Awal :</label>
+          <input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" value="{{blog.a|date:'Y-m-d H:i'}}" id="datepicker" name="tgl_awal">
+
+          <label class="my-1 mr-sm-2" for="tgl_akhir">Tanggal Akhir :</label>
+          <input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" value="{{blog.a|date:'Y-m-d H:i'}}" id="datepicker" name="tgl_akhir">
+
+          <button class="btn btn-success my-1 mr-sm-2" type="submit">Pilih</button>
+      </div>
+    </form>
+  </div>-->
+  <form method="POST" action="tambahrekap" class="form">
+  <div align="left">
+    {% csrf_token %}
+    <a href="/blog"><button type="button" class="btn btn-success my-1 mr-sm-2"><i class="fas fa-edit">Kembali</i></button></a>
+    </div>
+  <div class="container table-responsive table-wrapper-scroll-y">
+    <table id="tabelgrading" class="tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-light">
+      <tr class="fit">
+        <th rowspan="2">Nama PLTU</th>
+        <th rowspan="2">No</th>
+        <th rowspan="2">Periode</th>
+        <th rowspan="2">BBO ID</th>
+        <th rowspan="2">Shipment Code</th>
+        <th rowspan="2">Voyage Code</th>
+        <th rowspan="2">Voyage</th>
+        <th rowspan="2">Pemasok</th>
+        <th>KETERANGAN</th>
+        <th rowspan="2">Sumber Tambang</th>
+        <th rowspan="2">Loading Port</th>
+        <th rowspan="2">Unloading Port</th>
+        <th rowspan="2">TB</th>
+        <th rowspan="2">BG</th>
+        <th rowspan="2">Konfirmasi Rakor</th>
+        <th rowspan="2">Time Arrival</th>
+        <th rowspan="2">Status Laycan</th>
+        <th rowspan="2">Batas Maks Nor Accepted</th>
+        <th rowspan="2">Nor Accepted PLTU</th>
+        <th colspan="2">Despatch / Demurrage</th>
+        <th rowspan="2">Berthed Time</th>
+        <th rowspan="2">Commenced Unloading</th>
+        <th rowspan="2">Start Cleaning</th>
+        <th rowspan="2">Completed Unloading</th>
+        <th rowspan="2">Cast Off</th>
+        <th colspan="4">Gangguan (Jam)</th>
+        <th colspan="2">Volume</th>
+        <th rowspan="2" colspan="2">Initial Draught Survey</th>
+        <th rowspan="2" colspan="2">Lift Off Loader</th>
+        <th rowspan="2" colspan="2">Final Draught Survey</th>
+        <th rowspan="2" colspan="2">Port Stay</th>
+        <th rowspan="2">Berthing Time</th>
+        <th colspan="7">Non Operation Time</th>
+        <th rowspan="2">Waktu Tunggu Sandar</th>
+        <th rowspan="2">Waktu Bongkar</th>
+        <th rowspan="2">Waktu Cleaning</th>
+        <th colspan="2">Flowrate</th>
+        <th rowspan="2"  class="table-primary">Status Umpire</th>
+        <th colspan="10" class="table-success">RoA Loading</th>
+        <th colspan="23" class="table-warning">CoA Loading</th>
+        <th colspan="48" class="table-primary">CoA Unloading</th>
+        <th colspan="27" class="table-success">Lab IP</th>
+        <th colspan="4" class="table-warning">Quick Test</th>
+        <th rowspan="3">Action</th>
+      </tr>
+      <tr class="fit">
+        <th>TRANSHIPMENT/SHIFTING/….</th>
+        <th>Keterangan</th>
+        <th>Biaya</th>
+        <th>Coal Handling Facility</th>
+        <th>Kendala Eksternal</th>
+        <th>Force Majeur</th>
+        <th>Gangguan Pengurang Flowrate</th>
+        <th>B/L</th>
+        <th>DS</th>
+        <th>Initial Draught</th>
+        <th>Waiting Commenced</th>
+        <th>Persiapan Bongkar</th>
+        <th>Lift Off Loader</th>
+        <th>Final Draught</th>
+        <th>Waiting Cast Off</th>
+        <th>Persiapan Cast Off</th>
+        <th>Gross</th>
+        <th>Nett</th>
+        <th>GCV ARB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>VM ADB</th>
+        <th>FC ADB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>HGI</th>
+        <th>GCV ARB</th>
+        <th>GCV ADB</th>
+        <th>GCV DB</th>
+        <th>GCV DAFB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>Ash Content DB</th>
+        <th>VM ARB</th>
+        <th>VM ADB</th>
+        <th>VM DB</th>
+        <th>VM DAFB</th>
+        <th>FC ARB</th>
+        <th>FC ADB</th>
+        <th>FC DB</th>
+        <th>FC DAFB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur ADB</th>
+        <th>Total Sulphur DB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>HGI</th>
+        <th>IDT Reducing</th>
+        <th>GCV ARB</th>
+        <th>GCV ADB</th>
+        <th>GCV DB</th>
+        <th>GCV DAFB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>Ash Content DB</th>
+        <th>VM ARB</th>
+        <th>VM ADB</th>
+        <th>VM DB</th>
+        <th>VM DAFB</th>
+        <th>FC ARB</th>
+        <th>FC ADB</th>
+        <th>FC DB</th>
+        <th>FC DAFB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur ADB</th>
+        <th>Total Sulphur DB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>C ADB</th>
+        <th>H ADB</th>
+        <th>N ADB</th>
+        <th>N DAFB</th>
+        <th>O ADB</th>
+        <th>HGI</th>
+        <th colspan="4">Sizing (%)</th>
+        <th colspan="11">Ash Analysis (%)</th>
+        <th>Slagging Factor</th>
+        <th>Fouling Factor</th>
+        <th>IDT Reducing</th>
+        <th>HT Reducing</th>
+        <th>HT Oxidizing</th>
+        <th>Hg ARB</th>
+        <th>GCV ARB</th>
+        <th>GCV ADB</th>
+        <th>GCV DB</th>
+        <th>GCV DAFB</th>
+        <th>TM ARB</th>
+        <th>IM ADB</th>
+        <th>Ash Content ARB</th>
+        <th>Ash Content ADB</th>
+        <th>Ash Content DB</th>
+        <th>VM ARB</th>
+        <th>VM ADB</th>
+        <th>VM DB</th>
+        <th>VM DAFB</th>
+        <th>FC ARB</th>
+        <th>FC ADB</th>
+        <th>FC DB</th>
+        <th>FC DAFB</th>
+        <th>Total Sulphur ARB</th>
+        <th>Total Sulphur ADB</th>
+        <th>Total Sulphur DB</th>
+        <th>Total Sulphur DAFB</th>
+        <th>C ADB</th>
+        <th>H ADB</th>
+        <th>N ADB</th>
+        <th>N DAFB</th>
+        <th>O ADB</th>
+        <th>HGI</th>
+        <th>GCV ARB</th>
+        <th>TM ARB</th>
+        <th>Ash Content ARB</th>
+        <th>Total Sulphur ARB</th>
+      </tr>
+      </thead>
+      <thead>
+        <tr class="fit">
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th> Rupiah </th><th></th><th></th><th></th><th></th><th></th><th>Hours</th><th>Hours</th><th>Hours</th><th>Hours</th><th> MT </th><th> MT </th><th>Start</th><th>Finish</th><th>Start</th><th>Finish</th><th>Start</th><th>Finish</th><th> Day </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th> Hours </th><th>Hours</th><th>Hours</th><th>Hours</th><th>MT/Hours</th><th>MT/Hours</th><th></th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>index</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>index</th><th>°C</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>index</th><th>70 mm</th><th>50 mm</th><th>32 mm</th><th>2,38 mm</th><th>SiO2</th><th>Al2O3</th><th>Fe2O3</th><th>CaO</th><th>MgO</th><th>Na2O</th><th>K2O</th><th>TiO2</th><th>SO3</th><th>MnO2</th><th>P2O5</th><th></th><th></th><th>°C</th><th>°C</th><th>°C</th><th></th><th>Kcal/kg</th><th>Kcal/kg</th><th>Kcal/kg</th><th>%</th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th> % </th><th>%</th><th>%</th><th>%</th><th>%</th><th>%</th><th>Index</th><th>Kcal/kg</th><th>%</th><th>%</th><th>%</th><th></th>
+      </tr>
+      <tr class="fit">
+        <th><select class="custom-select my-1 mr-sm-2" name="pltu" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for blog in data2 %}
+          <option value="{{blog.nama_pltu}}">{{blog.nama_pltu}}</option>
+          {% endfor %}
+        </select></th>
+        <th><input type="text" name="no" value="{{blog.no}}" required></th>
+        <th><input type="text" name="periode" value="" disabled></th>
+        <th><input type="text" name="bbo_id" value="" required></th>
+        <th><input type="text" name="shipment_code" value="" required disabled></th>
+        <th><input type="text" name="voyage_code" value="" required disabled></th>
+        <th><input type="text" name="voyage" value="" disabled></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="nama_pemasok" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for blog in data3 %}
+          <option value="{{blog.nama_pemasok}}">{{blog.nama_pemasok}}</option>
+          {% endfor %}
+        </select></th>
+        <th>
+          <select class="custom-select my-1 mr-sm-2" id="transhipment_shifting" name="transhipment_shifting">
+            <option value="">NONE</option>
+            <option value="MAIN SHIPMENT">MAIN SHIPMENT</option>
+            <option value="TRANSHIPMENT">TRANSHIPMENT</option>
+            <option value="TRANSHIPMENT">SHIFTING</option>
+          </select>
+        </th>
+        <th><select class="custom-select my-1 mr-sm-2" name="sumber_tambang" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for blog in data4 %}
+          <option value="{{blog.nama_sumber_tambang}}">{{blog.nama_sumber_tambang}}</option>
+          {% endfor %}
+        </select></th>
+        <th><input type="text" name="loading_port" value="" ></th>
+        <th><input type="text" name="unloading_port" value="" ></th>
+        <th><input type="text" name="tb" value="" ></th>
+        <th><input type="text" name="bg" value="" ></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2"  name="konfirmasi_rakor" id="datepicker1" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2"  name="time_arrival" id="datepicker2" required></th>
+        <th><input type="text" name="status_laycan" value="" disabled></th>
+        <th><input type="text" name="batas_maks_not_accepted" value="" disabled></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2"  name="nor_accepted_pltu" id="datepicker14" required></th>
+        <th><input type="text" name="despatch_demurrage_keterangan" value="" disabled></th>
+        <th><input type="text" name="despatch_demurrage_biaya" value="" disabled></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker3" name="berthed_time" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker4" name="commenced_unloading" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker5" name="start_cleaning" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker6" name="completed_unloading" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker7" name="cast_off" required></th>
+        <th><input type="text" name="gangguan_jam_coal_handling_facility" value="0"></th>
+        <th><input type="text" name="gangguan_jam_kendala_eksternal" value="0"></th>
+        <th><input type="text" name="gangguan_jam_force_majeur" value="0"></th>
+        <th><input type="text" name="gangguan_jam_gangguan_pengurang_flowrate" value="" disabled></th>
+        <th><input type="text" name="volume_b_l" value="0"></th>
+        <th><input type="text" name="volume_ds" value="0" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker8" name="initial_draught_surve_start" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker9" name="initial_draught_surve_finish" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker10" name="lift_off_loader_start" ></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker11" name="lift_off_loader_finish" ></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker12" name="final_draught_survey_start" required></th>
+        <th><input placeholder="Pilih..." type="text" class="form-control datepicker mr-sm-2" id="datepicker13" name="final_draught_survey_fiinish" required></th>
+        <th><input type="text" name="port_stay_day" value="0" disabled></th>
+        <th><input type="text" name="port_stay_hour" value="0" disabled></th>
+        <th><input type="text" name="berthing_time" value="0" disabled></th>
+        <th><input type="text" name="initial_draught" value="0" disabled></th>
+        <th><input type="text" name="waiting_commenced" value="0" disabled></th>
+        <th><input type="text" name="persiapan_bongkar" value="0" disabled></th>
+        <th><input type="text" name="lift_off_loader" value="0" disabled></th>
+        <th><input type="text" name="final_draught" value="0" disabled></th>
+        <th><input type="text" name="waiting_cast_off" value="0" disabled></th>
+        <th><input type="text" name="persiapan_cast_off" value="0" disabled></th>
+        <th><input type="text" name="waktu_tunggu_sandar" value="0" disabled></th>
+        <th><input type="text" name="waktu_bongkar" value="0" disabled></th>
+        <th><input type="text" name="waktu_cleaning" value="0" disabled></th>
+        <th><input type="text" name="flowrate_gross_mt_hours" value="0" disabled></th>
+        <th><input type="text" name="flowrate_nett_mt_hours" value="0" disabled></th>
+        <th>
+          <select class="custom-select my-1 mr-sm-2" id="status_umpire" name="status_umpire" >
+            <option value="">NONE</option>
+            <option value="UMPIRE">UMPIRE</option>
+          </select>
+        </th>
+        <th><input type="text" name="roaloading_gcv_arb_kcal_kg" value="0"></th>
+        <th><input type="text" name="roaloading_tm_arb" value="0"></th>
+        <th><input type="text" name="roaloading_im_adb" value="0"></th>
+        <th><input type="text" name="roaloading_ash_content_arb" value="0"></th>
+        <th><input type="text" name="roaloading_ash_content_adb" value="0"></th>
+        <th><input type="text" name="roaloading_vm_adb" value="0"></th>
+        <th><input type="text" name="roaloading_fc_adb" value="0"></th>
+        <th><input type="text" name="roaloading_total_sulphur_arb" value="0"></th>
+        <th><input type="text" name="roaloading_total_sulphur_dafb" value="0"></th>
+        <th><input type="text" name="roaloading_hgi_index" value="0"></th>
+        <th><input type="text" name="coaloading_gcv_arb_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="coaloading_gcv_adb_kcal_kg" value="0"></th>
+        <th><input type="text" name="coaloading_gcv_db_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="coaloading_gcv_dafb_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="coaloading_tm_arb" value="0"></th>
+        <th><input type="text" name="coaloading_im_adb" value="0"></th>
+        <th><input type="text" name="coaloading_ash_content_arb" value="0" disabled></th>
+        <th><input type="text" name="coaloading_ash_content_adb" value="0"></th>
+        <th><input type="text" name="coaloading_ash_content_db" value="0" disabled></th>
+        <th><input type="text" name="coaloading_vm_arb" value="0" disabled></th>
+        <th><input type="text" name="coaloading_vm_adb" value="0"></th>
+        <th><input type="text" name="coaloading_vm_db" value="0" disabled></th>
+        <th><input type="text" name="coaloading_vm_dafb" value="0" disabled></th>
+        <th><input type="text" name="coaloading_fc_arb" value="0" disabled></th>
+        <th><input type="text" name="coaloading_fc_adb" value="0"></th>
+        <th><input type="text" name="coaloading_fc_db" value="0" disabled></th>
+        <th><input type="text" name="coaloading_fc_dafb" value="0" disabled></th>
+        <th><input type="text" name="coaloading_total_sulphur_arb" value="0" disabled></th>
+        <th><input type="text" name="coaloading_total_sulphur_adb" value="0"></th>
+        <th><input type="text" name="coaloading_total_sulphur_db" value="0" disabled></th>
+        <th><input type="text" name="coaloading_total_sulphur_dafb" value="0" disabled></th>
+        <th><input type="text" name="coaloading_hgi_index" value="0"></th>
+        <th><input type="text" name="coaloading_idt_reducing_c" value="0"></th>
+        <th><input type="text" name="coaunloading_gcv_arb_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_gcv_adb_kcal_kg" value="0" ></th>
+        <th><input type="text" name="coaunloading_gcv_db_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_gcv_dafb_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_tm_arb" value="0"></th>
+        <th><input type="text" name="coaunloading_im_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_ash_content_arb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_ash_content_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_ash_content_db" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_vm_arb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_vm_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_vm_db" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_vm_dafb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_fc_arb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_fc_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_fc_db" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_fc_dafb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_total_sulphur_arb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_total_sulphur_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_total_sulphur_db" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_total_sulphur_dafb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_c_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_h_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_n_adb" value="0"></th>
+        <th><input type="text" name="coaunloading_n_dafb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_o_adb" value="0" disabled></th>
+        <th><input type="text" name="coaunloading_hgi_index" value="0"></th>
+        <th><input type="text" name="coaunloading_sizing_70mm" value="0"></th>
+        <th><input type="text" name="coaunloading_sizing_50mm" value="0"></th>
+        <th><input type="text" name="coaunloading_sizing_32mm" value="0"></th>
+        <th><input type="text" name="coaunloading_sizing_2_38mm" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_sio2" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_ai2o3" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_fe2o3" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_cao" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_mgo" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_na2o" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_k2o" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_tio2" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_so3" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_mno2" value="0"></th>
+        <th><input type="text" name="coaunloading_ashanalysis_p2o5" value="0"></th>
+        <th><input type="text" name="coaunloading_slagging_factor" value=""></th>
+        <th><input type="text" name="coaunloading_fouling_factor" value=""></th>
+        <th><input type="text" name="coaunloading_idt_reducing_c" value="0"></th>
+        <th><input type="text" name="coaunloading_ht_reducing_c" value="0"></th>
+        <th><input type="text" name="coaunloading_ht_oxidizing_c" value="0"></th>
+        <th><input type="text" name="coaunloading_hg_arb" value="0"></th>
+        <th><input type="text" name="labip_gcv_arb_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="labip_gcv_adb_kcal_kg" value="0"></th>
+        <th><input type="text" name="labip_gcv_db_kcal_kg" value="0" disabled></th>
+        <th><input type="text" name="labip_gcv_dafb" value="0" disabled></th>
+        <th><input type="text" name="labip_tm_arb" value="0"></th>
+        <th><input type="text" name="labip_im_adb" value="0"></th>
+        <th><input type="text" name="labip_ash_content_arb" value="0" disabled></th>
+        <th><input type="text" name="labip_ash_content_adb" value="0"></th>
+        <th><input type="text" name="labip_ash_content_db" value="0" disabled></th>
+        <th><input type="text" name="labip_vm_arb" value="0" disabled></th>
+        <th><input type="text" name="labip_vm_adb" value="0"></th>
+        <th><input type="text" name="labip_vm_db" value="0" disabled></th>
+        <th><input type="text" name="labip_vm_dafb" value="0" disabled></th>
+        <th><input type="text" name="labip_fc_arb" value="0" disabled></th>
+        <th><input type="text" name="labip_fc_adb" value="0"></th>
+        <th><input type="text" name="labip_fc_db" value="0" disabled></th>
+        <th><input type="text" name="labip_fc_dafb" value="0" disabled></th>
+        <th><input type="text" name="labip_total_sulphur_arb" value="0" disabled></th>
+        <th><input type="text" name="labip_total_sulphur_adb" value="0"></th>
+        <th><input type="text" name="labip_total_sulphur_db" value="0" disabled></th>
+        <th><input type="text" name="labip_total_sulphur_dafb" value="0" disabled></th>
+        <th><input type="text" name="labip_c_adb" value="0"></th>
+        <th><input type="text" name="labip_h_adb" value="0"></th>
+        <th><input type="text" name="labip_n_adb" value="0"></th>
+        <th><input type="text" name="labip_n_dafb" value="0"></th>
+        <th><input type="text" name="labip_o_adb" value="0"></th>
+        <th><input type="text" name="labip_hgi_index" value="0"></th>
+        <th><input type="text" name="quicktest_gcv_arb_kcal_kg" value="0"></th>
+        <th><input type="text" name="quicktest_tm_arb" value="0"></th>
+        <th><input type="text" name="quicktest_ahs_content_arb" value="0"></th>
+        <th><input type="text" name="quicktest_total_sulphur_arb" value="0"></th>
+        <th><button class="btn btn-primary" type="submit">Simpan</button></th>
+      </tr>
+      <tr>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th><input type="text" name="" value="" disabled></th>
+        <th></th>
+      </tr>
+    </thead>
+  </table>
+  </div>
+  </form>
+  <br>
+{% endblock content-1 %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}

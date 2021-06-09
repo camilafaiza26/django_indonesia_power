@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% load l10n %}
+{% block header %}
+<h1 class="display-4">PENILAIAN PEMASOK BATUBARA</h1>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+{% load static %}
+{% endblock header %}
+
+{% block content-1 %}
+ <div class="container justify-content-center align-items-center ">
+    <br>
+    {% for mywebsite in data1 %}
+    <button type="button" class="btn btn-success my-1 mr-sm-2" onClick="javascript:history.go(-1);">Kembali</button>
+    {% endfor %}
+</div>
+
+  <div id="pdf" class="container pdf">
+        <br>
+      {% for mywebsite in data1 %}
+      <h5 align="center" class="text-dark">HASIL PENILAIAN KINERJA PEMASOK BATUBARA {{mywebsite.pltu.nama_pltu}} TAHUN {{mywebsite.waktu.tahun|unlocalize}}</h5>
+      <br>
+      <div id="textbox">
+          <b style="float: left; padding-left: 20px">Nama Pemasok : {{mywebsite.pemasok.nama_pemasok}}</b><b style="float: right; padding-right: 25px"> TW {{mywebsite.waktu.triwulan}} {{mywebsite.waktu.tahun|unlocalize}}</b>
+      </div>
+      <div class="container table-responsive">
+          {% load humanize %}
+      <table class="table text-center table-bordered table-sm" style="vertical-align: middle">
+          <tr>
+              <th class="align-middle" >Parameter</th>
+              <th class="align-middle" ></th>
+              <th class="align-middle" >Bobot</th>
+              <th class="align-middle" >Typical</th>
+              <th colspan="2" class="align-middle" >Batas Penolakan</th>
+              <th class="align-middle" >Realisai</th>
+              <th class="align-middle" >Nilai Pengurang</th>
+              <th class="align-middle" >Nilai Akhir</th>
+          </tr>
+          <tr>
+              <th class="align-middle" >1</th>
+              <th class="align-middle" ></th>
+              <th class="align-middle" >2</th>
+              <th class="align-middle" >3</th>
+              <th colspan="2" class="align-middle" >4</th>
+              <th class="align-middle" >5</th>
+              <th class="align-middle" >6</th>
+              <th class="align-middle" >7</th>
+          </tr>
+          <tr>
+              <td><b>1. Penilaian Kualitas Batubara</b></td>
+              <td></td>
+              <td>100</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>Calorific Value (ARB)</td>
+              <td>kCal/kg</td>
+              <th rowspan="6"></th>
+              <td>{{mywebsite.p1_gcv_typical|floatformat:2|intcomma}}</td>
+              <td colspan="2">{{mywebsite.p1_gcv_penolakan|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_gcv_realisasi|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_gcv_pengurang|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_gcv_nilaiakhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+              <td>Total Moisture (ARB)</td>
+              <td>%</td>
+              <td>{{mywebsite.p1_tm_typical|floatformat:2|intcomma}}</td>
+              <td colspan="2">{{mywebsite.p1_tm_penolakan|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_tm_realisasi|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_tm_pengurang|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_tm_nilaiakhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+              <td>Total Sulfur ({{mywebsite.pemasok.ts}})</td>
+              <td>%</td>
+              <td>{{mywebsite.p1_ts_typical|floatformat:2|intcomma}}</td>
+              <td colspan="2">{{mywebsite.p1_ts_penolakan|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_ts_realisasi|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_ts_pengurang|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_ts_nilaiakhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+              <td>Ash (ARB)</td>
+              <td>%</td>
+              <td>{{mywebsite.p1_ash_typical|floatformat:2|intcomma}}</td>
+              <td colspan="2">{{mywebsite.p1_ash_penolakan|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_ash_realisasi|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_ash_pengurang|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_ash_nilaiakhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+              <td>HGI</td>
+              <td>-</td>
+              <td>{{mywebsite.p1_hgi_typical|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_hgi_penolakan1|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_hgi_penolakan2|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_hgi_realisasi|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_hgi_pengurang|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_hgi_nilaiakhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+              <td>IDT (Reducing)</td>
+              <td>&#8451;</td>
+              <td>{{mywebsite.p1_idt_typical|floatformat:2|intcomma}}</td>
+              <td colspan="2">{{mywebsite.p1_idt_penolakan|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_idt_realisasi|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_idt_pengurang|floatformat:2|intcomma}}</td>
+              <td>{{mywebsite.p1_idt_nilaiakhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+              <th class="align-middle" ></th>
+              <th class="align-middle" ></th>
+              <th class="align-middle" ></th>
+              <th class="align-middle" ><b>Konfirmasi</b></th>
+              <th colspan="2" class="align-middle" ><b>Realisasi</b></th>
+              <th class="align-middle" ><b>% Realisai</b></th>
+              <th class="align-middle" ><b>Nilai Pengurang</b></th>
+              <th class="align-middle" ><b>Nilai Akhir</b></th>
+          </tr>
+          <tr class="align-middle">
+              <td rowspan="2"><b>2. Pencapaian Pasokan Terhadap <br>Konfirmasi Triwulanan</td>
+              <td rowspan="2" class="align-middle">%</td>
+              <td rowspan="2" class="align-middle"></td>
+              <td rowspan="2" class="align-middle">{{mywebsite.p2_konfirmasi|floatformat:2|intcomma}}</td>
+              <td colspan="2" rowspan="2" class="align-middle">{{mywebsite.p2_realisasi|floatformat:2|intcomma}}</td>
+              <td rowspan="2" class="align-middle">{{mywebsite.p2_persentase_pasokan|floatformat:2|intcomma}}</td>
+              <td rowspan="2" class="align-middle">{{mywebsite.p2_pengurang_pasokan|floatformat:2|intcomma}}</td>
+              <td rowspan="2" class="align-middle">{{mywebsite.p2_nilai_akhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+
+          </tr>
+          <tr>
+              <th class="align-middle" ></th>
+              <th class="align-middle" ></th>
+              <th class="align-middle" ></th>
+              <th class="align-middle" ><b>Total Shipment</b></th>
+              <th colspan="2" class="align-middle" ><b>Jumlah Shipment Terkena Penolakan</b></th>
+              <th class="align-middle" ><b>% Penolakan</b></th>
+              <th class="align-middle" ><b>Nilai Pengurang</b></th>
+              <th class="align-middle" ><b>Nilai Akhir</b></th>
+          </tr>
+          <tr class="align-middle">
+              <td rowspan="2"><b>3. Pengurang Presentase Batas <br>Penolakan</td>
+              <td rowspan="2" class="align-middle">-</td>
+              <td rowspan="2" class="align-middle"></td>
+              <td rowspan="2" class="align-middle">{{mywebsite.p3_total_shipment|floatformat:2|intcomma}}</td>
+              <td colspan="2" rowspan="2" class="align-middle">{{mywebsite.p3_jmlh_shipment_tertolak|floatformat:2|intcomma}}</td>
+              <td rowspan="2" class="align-middle">{{mywebsite.p3_persentase_penolakan|floatformat:2|intcomma}}</td>
+              <td rowspan="2" class="align-middle">{{mywebsite.p3_pengurang_penolakan|floatformat:2|intcomma}}</td>
+              <td rowspan="2" class="align-middle">{{mywebsite.nilai_akhir|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+          </tr>
+          <tr>
+              <th colspan="8" class="align-left" >Nilai Akhir</th>
+              <th class="align-middle" >{{mywebsite.nilai_akhir}}</th>
+          </tr>
+          <tr>
+              <th colspan="8" class="align-middle">Klasifikasi</th>
+              <th class="align-middle" >{{mywebsite.klasifikasi}}</th>
+          </tr>
+      </table>
+      <div class="form-group">
+        <form class="" method="POST" action="printnilai/" method="post">
+          {% csrf_token %}
+          <br>
+          <br>
+          <input type="text" name="id" value="{{mywebsite.rekapanpenilaian_id|unlocalize}}" hidden>
+          <input type="text" name="jabatan" value="" placeholder="Jabatan" style="float: right;" ><br><br>
+          <input type="text" name="nama" value="" placeholder="Nama" style="float: right;" ><br><br><button type="submit" name="button" class="btn btn-danger my-1 mr-sm-2" style="float: right">Print</button>
+        </form>
+      </div>
+      </div>
+      {% endfor %}
+      </div>
+
+      <br>
+
+
+
+
+{% endblock content-1 %}
+
+{% block content-2 %}
+<!--<h1 class="text-dark">Perhitungan Tertimbang</h1>
+<div class="container table-responsive form-inline">
+<table id="tabeltertimbang" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+  <thead class="thead-dark">
+    <tr class="">
+     <th>Parameter</th>
+     <th>GCV</th>
+     <th>TM</th>
+     <th>TS</th>
+     <th>ASH</th>
+     <th>HGI</th>
+     <th>IDT</th>
+     <th>MT</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mywebsite in data2 %}
+    <tr class="fit">
+      <td class="align-middle">{{ forloop.counter |floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pt_gcv|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pt_tm|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pt_ts|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pt_ash|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pt_hgi|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pt_idt|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pt_mt|floatformat:2|intcomma}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<br>-->
+{% endblock content-2 %}
+
+{% block content-3 %}
+<!--<h1 class="text-dark">Penolakan</h1>
+<div class="container table-responsive form-inline">
+<table id="tabeltertimbang" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+  <thead class="thead-dark">
+    <tr class="">
+     <th>Parameter</th>
+     <th>GCV</th>
+     <th>TM</th>
+     <th>TS</th>
+     <th>ASH</th>
+     <th>HGI</th>
+     <th>IDT</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mywebsite in data3 %}
+    <tr class="fit">
+      <td class="align-middle">{{ forloop.counter |floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pn_gcv|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pn_tm|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pn_ts|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pn_ash|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pn_hgi|floatformat:2|intcomma}}</td>
+      <td class="align-middle">{{mywebsite.pn_idt|floatformat:2|intcomma}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<br>-->
+{% endblock content-3 %}

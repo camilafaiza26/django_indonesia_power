@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load l10n %}
+
+{% block header %}
+<h1 class="display-4">BUAT PENILAIAN PEMASOK</h1>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+{% load static %}
+{% endblock header %}
+
+{% block content-1 %}
+
+{% endblock content-1 %}
+
+{% block content-2 %}
+{% load humanize %}
+<h1 class="text-dark">Perhitungan Tertimbang</h1>
+<h3>{{nama_pltu}} Triwulan {{waktu}}</h3>
+<form class="" action="konfirgrading" method="post">
+{% csrf_token %}
+<input type="hidden"  name="totalbaris" value="{{totalbaris}}"></input>
+<div class="container table-responsive form-inline">
+{% localize off %}
+
+<table id="tabeltertimbang" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+  <thead class="thead-dark">
+    <tr class="">
+     <th>Pemasok</th>
+     <th>Konfirmasi Rakor</th>
+     <th>GCV</th>
+     <th>TM</th>
+     <th>TS</th>
+     <th>ASH</th>
+     <th>HGI</th>
+     <th>IDT</th>
+     <th>MT</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mywebsite in data2 %}
+    {% if mywebsite.transhipment_shifting != 'TRANSHIPMENT' %}
+    {% if mywebsite.pemasok.kontrak == 'Coa Unloading' %}
+    {% if mywebsite.pemasok.ts == 'DAFB' %}
+    <tr class="fit">
+        <input type="text" name="pltu" value="{{pltuid}}" hidden>
+        <input type="text" name="pemasok" value="{{mywebsite.pemasok_id}}" hidden>
+        <input type="text" name="waktu" value="{{waktuid}}" hidden>
+        <td class="align-middle">{{mywebsite.nama_pemasok}}</td>
+        <td class="align-middle">{{mywebsite.konfirmasi_rakor|date:'d/m/Y'}}</td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_gcv_arb_kcal_kg}}" name="pt_gcv"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_tm_arb}}" name="pt_tm"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_total_sulphur_dafb}}" name="pt_ts"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_ash_content_arb}}" name="pt_ash"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_hgi_index}}" name="pt_hgi"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_idt_reducing_c}}" name="pt_idt"></td>
+        <td><input type="text" readonly value="{{mywebsite.volume_ds}}" name="pt_mt"></td>
+    </tr>
+    {% endif %}
+    {% if mywebsite.pemasok.ts == 'ARB' %}
+    <tr class="fit">
+        <input type="text" name="pltu" value="{{pltuid}}" hidden>
+        <input type="text" name="pemasok" value="{{mywebsite.pemasok_id}}" hidden>
+        <input type="text" name="waktu" value="{{waktuid}}" hidden>
+        <td class="align-middle">{{mywebsite.nama_pemasok}}</td>
+        <td class="align-middle">{{mywebsite.konfirmasi_rakor|date:'d/m/Y'}}</td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_gcv_arb_kcal_kg}}" name="pt_gcv"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_tm_arb}}" name="pt_tm"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_total_sulphur_arb}}" name="pt_ts"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_ash_content_arb}}" name="pt_ash"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_hgi_index}}" name="pt_hgi"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaunloading_idt_reducing_c}}" name="pt_idt"></td>
+        <td><input type="text" readonly value="{{mywebsite.volume_ds}}" name="pt_mt"></td>
+    </tr>
+    {% endif %}
+    {% endif %}
+    {% if mywebsite.pemasok.kontrak == 'Coa Loading' %}
+    {% if mywebsite.pemasok.ts == 'DAFB' %}
+    <tr class="fit">
+        <input type="text" name="pltu" value="{{pltuid}}" hidden>
+        <input type="text" name="pemasok" value="{{mywebsite.pemasok_id}}" hidden>
+        <input type="text" name="waktu" value="{{waktuid}}" hidden>
+        <td class="align-middle">{{mywebsite.nama_pemasok}}</td>
+        <td class="align-middle">{{mywebsite.konfirmasi_rakor|date:'d/m/Y'}}</td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_gcv_arb_kcal_kg}}" name="pt_gcv"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_tm_arb}}" name="pt_tm"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_total_sulphur_dafb}}" name="pt_ts"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_ash_content_arb}}" name="pt_ash"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_hgi_index}}" name="pt_hgi"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_idt_reducing_c}}" name="pt_idt"></td>
+        <td><input type="text" readonly value="{{mywebsite.volume_b_l}}" name="pt_mt"></td>
+    </tr>
+    {% endif %}
+    {% if mywebsite.pemasok.ts == 'ARB' %}
+    <tr class="fit">
+        <input type="text" name="pltu" value="{{pltuid}}" hidden>
+        <input type="text" name="pemasok" value="{{mywebsite.pemasok_id}}" hidden>
+        <input type="text" name="waktu" value="{{waktuid}}" hidden>
+        <td class="align-middle">{{mywebsite.nama_pemasok}}</td>
+        <td class="align-middle">{{mywebsite.konfirmasi_rakor|date:'d/m/Y'}}</td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_gcv_arb_kcal_kg}}" name="pt_gcv"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_tm_arb}}" name="pt_tm"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_total_sulphur_arb}}" name="pt_ts"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_ash_content_arb}}" name="pt_ash"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_hgi_index}}" name="pt_hgi"></td>
+        <td><input type="text" readonly value="{{mywebsite.coaloading_idt_reducing_c}}" name="pt_idt"></td>
+        <td><input type="text" readonly value="{{mywebsite.volume_b_l}}" name="pt_mt"></td>
+    </tr>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endlocalize %}
+</div>
+<input class="btn btn-dark my-1 mr-sm-2" type="submit" name="konfirgrading" value="Konfirmasi"></input>
+</form>
+<br>
+{% endblock content-2 %}
+
+{% block content-3 %}
+
+{% endblock content-3 %}

@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="text-left">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h1 align="center" class="text-dark">Data Master Solver</h1>
+    <h5>Sort Berdasarkan PLTU</h5>
+    <form method="POST" action="" class="form-inline">
+      <div class="form-row align-items-center">
+
+      <!--<div id="container justify-content-center align-items-center">-->
+      {% csrf_token %}
+      <!--<label class="my-1 mr-2" for="inlineFormCustomSelectPref">Pilih Tahun :</label>
+
+      <br>
+
+      <button class="btn btn-warning my-1 mr-sm-2" type="submit">Edit</button>
+      <button class="btn btn-danger my-1 mr-sm-2" type="submit">Hapus</button
+    </div>-->
+    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Pilih PLTU :</label>
+    <select class="custom-select my-1 mr-sm-2" name="sortpltu" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for pltu in queryPLTU %}
+          <option value="{{pltu.nama_pltu}}">{{pltu.nama_pltu}}</option>
+          {% endfor %}
+        </select>
+          <input class="btn btn-primary my-1 mr-sm-2" type="submit" name="sort" value="Sort"></input>
+    </form>
+    </div>
+  </div>
+  <div class="container justify-content-center">
+    <br>
+    <!--<form action="" class="form-inline">
+      {% csrf_token %}
+      <div class="form-row align-items-center">
+
+
+
+      </div>
+    </form>-->
+
+
+
+
+    <form method="POST" action="tambahmastersolver/" class="form-inline">
+
+
+      <!--<div id="container justify-content-center align-items-center">-->
+      {% csrf_token %}
+      <!--<label class="my-1 mr-2" for="inlineFormCustomSelectPref">Pilih Tahun :</label>
+
+      <br>
+
+      <button class="btn btn-warning my-1 mr-sm-2" type="submit">Edit</button>
+      <button class="btn btn-danger my-1 mr-sm-2" type="submit">Hapus</button
+    </div>-->
+
+<br>
+
+
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="tabelgrading" class="tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-light">
+      <tr class="">
+        <th>PLTU</th>
+        <th>Pemasok</th>
+        <th>Sumber Tambang</th>
+        <th>GCV kCal/kg</th>
+        <th>Jenis</th>
+        <th>TS (%)</th>
+        <th>FOB (Rp/MT)</th>
+        <th>Moda</th>
+        <th>Freight Cost (Rp/MT)</th>
+        <th>CIF (Rp/MT)</th>
+        <th>CIF (Rp/Cal)</th>
+        <th>Triwulan</th>
+        <th>Tahun</th>
+        <th></th>
+      </tr>
+      </thead>
+      <thead>
+        
+        <th><select class="custom-select my-1 mr-sm-2" name="pltu" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for pltu in queryPLTU %}
+          <option value="{{pltu.nama_pltu}}">{{pltu.nama_pltu}}</option>
+          {% endfor %}
+        </select></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="pemasok" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for pemasok in queryPemasok %}
+          <option value="{{pemasok.nama_pemasok}}">{{pemasok.nama_pemasok}}</option>
+          {% endfor %}
+        </select></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="nama_sumber_tambang" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for st in querySumberTambangDistinct %}
+          <option value="{{st.nama_sumber_tambang}}">{{st.nama_sumber_tambang}}</option>
+          {% endfor %}
+        </select></th>
+        <th><input type="number" min="0" step="1" name="gcv_kcal_kg" value="" required></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="jenis_bb" required>
+          <option selected disabled value="">Pilih...</option>
+          <option value="MRC">MRC</option>
+          <option value="LRC">LRC</option>
+        </select></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="ts_persen" value="" required></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="fob_rp_mt" value="" required></th>
+        <th><input type="text" name="moda" value="" required></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="freight_cost_rp_mt" value="" required></th>
+        <!--<th><select class="custom-select my-1 mr-sm-2" name="sumber_tambang" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for blog in data4 %}
+          <option value="{{blog.nama_sumber_tambang}}">{{blog.nama_sumber_tambang}}</option>
+          {% endfor %}
+        </select></th>-->
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="cif_rp_mt" value="" required></th>
+        <th><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" step="0.0001" min="0" name="cif_rp_cal" value="" required></th>
+        <th><select class="custom-select my-1 mr-sm-2" name="triwulan" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for tw in queryWaktuDistinctTriwulan %}
+          <option value="{{tw.triwulan}}">{{tw.triwulan}}</option>
+          {% endfor %}
+        </select></th>
+        <th>
+          <select class="custom-select my-1 mr-sm-2" name="waktu" required>
+            <option selected disabled value="">Pilih...</option>
+            {% for tahun in queryWaktuDistinctTahun %}
+            {% if tahun.tahun == 2019 %}
+
+            {% else %}
+            <option value="{{tahun.tahun}}">{{tahun.tahun|unlocalize}}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </th>
+        <th>
+          <button class="btn btn-primary float-center" type="submit">Simpan</button>
+        </th>
+
+      </tr>
+      
+    </thead>
+    <tbody>
+      {% if querypltufilter %}
+      {% for data in querypltufilter %}
+      <tr class="fit">
+        <td>{{data.pltu.nama_pltu}}</td>
+        <td>{{data.pemasok.nama_pemasok}}</td>
+        <td>{{data.nama_sumber_tambang}}</td>
+        <td>{{data.gcv_kcal_kg|floatformat:2|intcomma}}</td>
+        <td>{{data.jenis_bb|floatformat:2|intcomma}}</td>
+        <td>{{data.ts_persen|floatformat:2|intcomma:False}}</td>
+        <td>{{data.fob_rp_mt|floatformat:2|intcomma:False}}</td>
+        <td>{{data.moda}}</td>
+        <td>{{data.freight_cost_rp_mt|floatformat:2|intcomma:False}}</td>
+        <td>{{data.cif_rp_mt|floatformat:2|intcomma:False}}</td>
+        <td>{{data.cif_rp_cal|floatformat:2|intcomma:False}}</td>
+        <td>{{data.waktu.triwulan}}</td>
+        <td>{{data.waktu.tahun|unlocalize}}</td>
+        <td> <a href="editmastersolver/{{data.kontrakpemasok_id }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Ubah</i></button></a>
+          <a href="hapusmastersolver/{{ data.kontrakpemasok_id }}"><button type="button" class="btn btn-danger my-1 mr-sm-2" ><i class="far fa-trash-alt">Hapus</i></button></a>
+        </td>
+
+      </tr>
+      {% endfor %}
+      {% else %}
+      {% for data in dataMasterSolver %}
+      <tr class="fit">
+        <td>{{data.pltu.nama_pltu}}</td>
+        <td>{{data.pemasok.nama_pemasok}}</td>
+        <td>{{data.nama_sumber_tambang}}</td>
+        <td>{{data.gcv_kcal_kg|floatformat:2|intcomma:False}}</td>
+        <td>{{data.jenis_bb}}</td>
+        <td>{{data.ts_persen|floatformat:2|intcomma:False}}</td>
+        <td>{{data.fob_rp_mt|floatformat:2|intcomma:False}}</td>
+        <td>{{data.moda}}</td>
+        <td>{{data.freight_cost_rp_mt|floatformat:2|intcomma:False}}</td>
+        <td>{{data.cif_rp_mt|floatformat:2|intcomma:False}}</td>
+        <td>{{data.cif_rp_cal|floatformat:2|intcomma:False}}</td>
+        <td>{{data.waktu.triwulan}}</td>
+        <td>{{data.waktu.tahun|unlocalize}}</td>
+        <td> <a href="editmastersolver/{{data.kontrakpemasok_id }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Ubah</i></button></a>
+          <a href="hapusmastersolver/{{ data.kontrakpemasok_id }}"><button type="button" class="btn btn-danger my-1 mr-sm-2" ><i class="far fa-trash-alt">Hapus</i></button></a>
+        </td>
+
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+</div>
+
+  </form>
+  <br>
+{% endblock content-1 %}

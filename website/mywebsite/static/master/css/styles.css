@@ -1,0 +1,97 @@
+h1 {
+  color: #fff;
+  font-family: arial;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  /*overflow: hidden;*/
+  padding: 0;
+}
+
+nav li {
+  float: left;
+}
+
+nav a {
+  color: #fff;
+  display: block;
+  font-family: arial;
+  padding: 10px 10px;
+  text-decoration: none;
+}
+
+nav a:hover{
+  background-color: none;
+}
+
+.jumbotron{
+  background-image:url("/static/img/PLTU/BLT2.jpg");
+  background-position: bottom;
+  background-size: cover;
+  height: 350px
+}
+
+td.fit,
+tr.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.center_div{
+    margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */
+}
+
+.dtHorizontalVerticalExampleWrapper {
+max-width: 600px;
+margin: 0 auto;
+}
+
+#tabelgrading th, td {
+white-space: nowrap;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
+
+.my-custom-scrollbar {
+position: relative;
+height: 250px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+
+td.fit,
+tr.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.center_div{
+    margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */
+}
+
+#right{float:right;width:100px;}
+
+.tableFixHead          { overflow-y: auto; height: 0; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 0px 0px; }
+th     { background:#eee; }

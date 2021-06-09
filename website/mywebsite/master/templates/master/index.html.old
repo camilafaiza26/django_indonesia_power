@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "master/css/styles.css" %}">
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="display-4 text-light text-bold">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+<div class="container">
+  <br>
+  <h2>Data Pemasok</h2>
+  <form method="post" action="tambahpemasok/" class="form-inline justify-content-center">
+    {% csrf_token %}
+    <div class="form-row">
+        <label class="my-1 mr-sm-2">Nama Pemasok : </label>
+        <input type="text" class="form-control my-1 mr-sm-2" name="nama_pemasok" required>
+        <select class="custom-select my-1 mr-sm-2" id="jenis_bb" name="jenis_bb" required>
+          <option selected disabled value="">Jenis BB :</option>
+          <option value="LRC">LRC</option>
+          <option value="MRC">MRC</option>
+        </select>
+        <select class="custom-select my-1 mr-sm-2" id="kontrak" name="kontrak" required>
+          <option selected disabled value="">Kontrak :</option>
+          <option value="Coa Unloading">Coa Unloading</option>
+          <option value="Coa Loading">Coa Loading</option>
+          <option value="Roa Loading">Roa Loading</option>
+        </select>
+        <select class="custom-select my-1 mr-sm-2" id="ts" name="ts" required>
+          <option selected disabled value="">Jenis Sulphur :</option>
+          <option value="ARB">ARB</option>
+          <option value="DAFB">DAFB</option>
+        </select>
+        <button class="btn btn-primary my-1 mr-sm-2" type="submit">Tambah</button>
+    </div>
+  </form>
+</div>
+<br>
+<div class="container table-responsive justify-content-center table-wrapper-scroll-y my-custom-scrollbar">
+  <div class="col-auto">
+  <table id="tabelpemasok" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-dark">
+        <tr class="fit">
+        <th>Nama Pemasok</th>
+        <th>Jenis BB</th>
+        <th>Kontrak</th>
+        <th>Jenis TS</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for master in data1 %}
+      <tr class="fit">
+        <td class="align-middle">{{master.nama_pemasok}}</td>
+        <td class="align-middle">{{master.jenis_bb}}</td>
+        <td class="align-middle">{{master.kontrak}}</td>
+        <td class="align-middle">{{master.ts}}</td>
+        <td class="align-middle"> <a href="editpemasok/{{ master.pemasok_id }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Ubah</i></button></a>
+          <a href="hapuspemasok/{{ master.pemasok_id }}"><button type="button" class="btn btn-danger my-1 mr-sm-2" ><i class="far fa-trash-alt">Hapus</i></button></td></a>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  </div>
+</div>
+{% endblock content-1 %}
+
+{% block content-2 %}
+<div class="container">
+  <br>
+  <h2>Data PLTU</h2>
+  <form method="post" action="tambahpltu/"  class="form-inline justify-content-center">
+    {% csrf_token %}
+    <div class="form-row">
+        <label class="my-1 mr-sm-2" for="validationDefault05">Nama PLTU : </label>
+        <input type="text" class="form-control my-1 mr-sm-2" name="nama_pltu" required>
+        <label class="my-1 mr-sm-2" for="validationDefault05">Lokasi PLTU: </label>
+        <input type="text" class="form-control my-1 mr-sm-2" name="lokasi_pltu" required>
+        <label class="my-1 mr-sm-2" for="validationDefault05">Kode PLTU: </label>
+        <input type="text" class="form-control my-1 mr-sm-2" name="kode_pltu" required>
+        <button class="btn btn-primary my-1 mr-sm-2" type="submit">Tambah</button>
+    </div>
+  </form>
+</div>
+<br>
+<div class="container table-responsive justify-content-center table-wrapper-scroll-y my-custom-scrollbar">
+  <div class="col-auto">
+  <table id="tabelpltu" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-dark">
+        <tr class="fit">
+        <th>Nama PLTU</th>
+        <th>Lokasi PLTU</th>
+        <th>Kode PLTU</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for master in data2 %}
+      <tr class="fit">
+        <td class="align-middle">{{master.nama_pltu}}</td>
+        <td class="align-middle">{{master.lokasi_pltu}}</td>
+        <td class="align-middle">{{master.kode_pltu}}</td>
+        <td class="align-middle"><a href="editpltu/{{ master.pltu_id }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Ubah</i></button></a>
+          <a href="hapuspltu/{{ master.pltu_id }}"><button type="button" class="btn btn-danger my-1 mr-sm-2"><i class="far fa-trash-alt">Hapus</i></button></td></a>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  </div>
+</div>
+{% endblock content-2 %}
+
+{% block content-3 %}
+<div class="container">
+  <br>
+  <h2>Data Sumber Tambang</h2>
+  <form method="post" action="tambahsumbertambang/"  class="form-inline justify-content-center">
+    {% csrf_token %}
+    <div class="form-row">
+      <label class="my-1 mr-sm-2" for="validationDefault05">Kode Sumber Tambang : </label>
+      <input type="text" class="form-control my-1 mr-sm-2" name="kode_sumber_tambang" required>
+      <label class="my-1 mr-sm-2" for="validationDefault05">Nama Sumber Tambang : </label>
+      <input type="text" class="form-control my-1 mr-sm-2" name="nama_sumber_tambang" required>
+      <button class="btn btn-primary my-1 mr-sm-2" type="submit">Tambah</button>
+  </div>
+  </form>
+</div>
+<br>
+<div class="container table-responsive justify-content-center table-wrapper-scroll-y my-custom-scrollbar">
+  <div class="col-auto">
+  <table id="tabelsumbertambang" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-dark">
+      <tr class="fit">
+          <th>Kode Sumber tambang</th>
+          <th>Nama Sumber tambang</th>
+          <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for master in data3 %}
+      <tr>
+        <td class="align-middle align-left">{{master.kode_sumber_tambang}}</td>
+        <td class="align-middle">{{master.nama_sumber_tambang}}</td>
+        <td class="fit"><a href="editsumbertambang/{{ master.sumbertambang_id }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Ubah</i></button></a>
+          <a href="hapussumbertambang/{{ master.sumbertambang_id }}"><button type="button" class="btn btn-danger my-1 mr-sm-2" ><i class="far fa-trash-alt">Hapus</i></button></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  </div>
+</div>
+{% endblock content-3 %}
+
+{% block content-4 %}
+<div class="container">
+  <br>
+  <h2>Data Waktu & Triwulan</h2>
+  <form method="post" action="tambahwaktu/"  class="form-inline justify-content-center">
+    {% csrf_token %}
+    <div class="form-row">
+        <label class="my-1 mr-sm-2" for="validationDefault05">Rentang Waktu :</label>
+        <input placeholder="Waktu Mulai" type="text" class="form-control datepicker mr-sm-2" id="datepickerwaktumulai" name="waktu_mulai" required>
+        <input placeholder="Waktu Selesai" type="text" class="form-control datepicker mr-sm-2" id="datepickerwaktuselesai" name="waktu_selesai" required>
+        <label class="my-1 mr-sm-2" for="validationDefault05">Triwulan : </label>
+        <select class="custom-select my-1 mr-sm-2" name="triwulan" required>
+          <option selected disabled value="">Pilih...</option>
+          {% for tw in queryWaktuDistinctTriwulan %}
+          <option value="{{tw.triwulan}}">{{tw.triwulan}}</option>
+          {% endfor %}
+        </select>
+        <label class="my-1 mr-sm-2" for="validationDefault05">Tahun : </label>
+        <input type="number" min="2020" class="form-control my-1 mr-sm-2" name="tahun" required>
+        <button class="btn btn-primary my-1 mr-sm-2" type="submit">Tambah</button>
+    </div>
+  </form>
+</div>
+<br>
+<div class="container table-responsive justify-content-center table-wrapper-scroll-y my-custom-scrollbar">
+  <div class="col-auto">
+    {% load humanize %}
+  <table id="tabelwaktu" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-dark">
+      <tr class="fit">
+          <th >Waktu Mulai</th>
+          <th>Waktu Selesai</th>
+          <th >Triwulan</th>
+          <th>Tahun</th>
+          <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% localize off %}
+      {% for master in data4 %}
+      <tr>
+        <td>{{master.waktu_mulai|date:'d/m/Y'}}</td>
+        <td>{{master.waktu_selesai|date:'d/m/Y'}}</td>
+        <td>{{master.triwulan}}</td>
+        <td>{{master.tahun}}</td>
+        <td class="fit"><a href="editmasterwaktu/{{master.waktu_id }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Ubah</i></button></a>
+          <a href="hapuswaktu/{{ master.waktu_id }}"><button type="button" class="btn btn-danger my-1 mr-sm-2" ><i class="far fa-trash-alt">Hapus</i></button></a></td>
+      </tr>
+      {% endfor %}
+      {% endlocalize %}
+    </tbody>
+  </table>
+  <br>
+  </div>
+</div>
+{% endblock content-4 %}

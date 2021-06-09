@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="text-center">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+
+  <div class="container justify-content-center align-items-center">
+    <br>
+    <h1 align="center" class="text-dark">Resume Hasil Optimasi Solver</h1>
+  </div>
+  <div class="container justify-content-center align-items-center mb-sm-1">
+    <br>
+    <form method="POST" action="" class="form-inline">
+      {% csrf_token %}
+      <div class="form-row align-items-center">
+
+        <h4><span class="badge badge-primary">{{checknorunHasil.pltu.nama_pltu}}</span></h4><p>&nbsp;&nbsp;&nbsp;</p>
+        <h4><span class="badge badge-info">{{checknorunHasil.waktu}}</span></h4><p>&nbsp;&nbsp;&nbsp;</p>
+        <input class="btn btn-success my-1 mr-sm-2" type="submit" name="cetakexcel" value="CETAK EXCEL"></input>
+        {% if querySatuan.status_model == "Infeasible" %}
+        <h4><span class="badge badge-danger">Status Solver: Belum Optimal</span></h4><br>
+        {% endif %}
+      </div>
+</div>
+
+<br>
+
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="tabelgrading" class="tableFixHead text-center table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-light">
+      <tr class="">
+        <th>PEMASOK</th>
+        <th>JENIS</th>
+        <th>VOLUME (MT)</th>
+        <th>KALORI (kCal)</th>
+        <th>SULPHUR (%)</th>
+        <th>HARGA (Rp*MT/Cal)</th>
+      </tr>
+      </thead>
+    <tbody>
+      {% if querySatuan.status_model == "Optimal" %}
+      {% for i in queryHasil %}
+      <tr class="">
+        <td>{{i.pemasok.nama_pemasok}}</td>
+        <td>{{i.jenis_bb}}</td>
+        <td>{{i.rhos_volume|floatformat:2|intcomma:False}}</td>
+        <td>{{i.rhos_kalori_kcal|floatformat:2|intcomma:False}}</td>
+        <td>{{i.rhos_ts_persen|floatformat:2|intcomma:False}}</td>
+        <td>{{i.rhos_harga_rp_mt_cal|floatformat:2|intcomma:False}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <th colspan="2"><label class="my-1 mr-sm-2" for="total">TOTAL :</label></th>
+        <td>{{querySatuan.total_volume_akhir|floatformat:2|intcomma:False}}</td>
+        <td>{{querySatuan.total_kalori_akhir|floatformat:2|intcomma:False}}</td>
+        <td>{{querySatuan.total_ts_akhir|floatformat:2|intcomma:False}}</td>
+        <td>{{querySatuan.total_harga_akhir|floatformat:2|intcomma:False}}</td>
+      </tr>
+      <tr>
+        <th colspan="2"><label class="my-1 mr-sm-2" for="totalkalortertimbang">HARGA (Rp/MT)</label></th>
+        <td>{{querySatuan.rp_mt|floatformat:2|intcomma:False}}</td>
+      </tr>
+      <tr>
+        <th colspan="2"><label class="my-1 mr-sm-2" for="totalkalortertimbang">HARGA (Rp/Cal)</label></th>
+        <td>{{querySatuan.rp_cal|floatformat:2|intcomma:False}}</td>
+      </tr>
+      <tr>
+        <th colspan="2"><label class="my-1 mr-sm-2" for="totalkalortertimbang">NILAI KALOR TERTIMBANG (kCal/kg) </label></th>
+        <td>{{querySatuan.nilai_kalor_kcal_kg|floatformat:2|intcomma:False}}</td>
+      </tr>
+      <tr>
+        <th colspan="2"><label class="my-1 mr-sm-2" for="totalsulfur">TOTAL SULFUR (%)</label></th>
+        <td>{{querySatuan.total_sulphur_persen|floatformat:2|intcomma:False}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br><br>
+  <table id="tabelgrading" class=" tableFixHead text-center table-striped table-bordered table-sm mb-0" width="auto">
+    <thead class="thead-light">
+      <tr class="">
+        <th>Rencana Komposisi BB</th>
+        <th>Persentase (%)</th>
+        <th>Volume (MT)</th>
+      </tr>
+      <tr class="">
+        <th>MRC</th>
+        <td>{{querySatuan.persentase_mrc_persen}}</td>
+        <td>{{querySatuan.volume_mrc_mt|floatformat:2|intcomma:False}}</td>
+      </tr>
+      <tr class="">
+        <th>LRC</th>
+        <td>{{querySatuan.persentase_lrc_persen}}</td>
+        <td>{{querySatuan.volume_lrc_mt|floatformat:2|intcomma:False}}</td>
+      </tr>
+      </thead>
+      {% endif %}
+    <tbody>
+    </tbody>
+  </table>
+  </div>
+</form>
+
+  <br>
+{% endblock content-1 %}

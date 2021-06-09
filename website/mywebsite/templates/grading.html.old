@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load l10n %}
+{% block header %}
+<h1 class="display-4">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-1 %}
+  <div class="container">
+    <br>
+    <h2>Pilih Berdasarkan PLTU</h2>
+    <form method="post" action="" class="form-inline">
+      {% csrf_token %}
+      <div class="form-row">
+
+          <label class="my-1 mr-2" for="nama_pltu">Nama PLTU :</label>
+          <select class="custom-select my-1 mr-sm-2" id="nama_pltu" name="nama_pltu" required>
+            <option selected disabled value="">Pilih...</option>
+            {% for mywebsite in data2 %}
+            <option value="{{mywebsite.nama_pltu}}">{{mywebsite.nama_pltu}}</option>
+            {% endfor %}
+          </select>
+
+          <label class="my-1 mr-sm-2" for="tahun">Tahun : </label>
+          <input type="text" class="form-control my-1 mr-sm-2" id="tahun" name="tahun" required >
+
+          <label class="my-1 mr-sm-2" for="triwulan">Triwulan : </label>
+          <select class="custom-select my-1 mr-sm-2" id="triwulan" name="triwulan" required>
+            <option selected disabled value="">Pilih...</option>
+            <option value="I">I</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+          </select>
+          <input class="btn btn-success my-1 mr-sm-2" type="submit" name="caripltu" value="Cari"></input>
+          <input class="btn btn-dark my-1 mr-sm-2" type="submit" name="buatgrading" value="Buat Grading"></input>
+      </div>
+      <div align="right">
+      </div>
+    </form>
+  </div>
+  <br>
+  <div class="container table-responsive table-wrapper-scroll-y my-custom-scrollbar form-inline">
+  <table id="tabelgrading" class="table tableFixHead text-center table-striped table-bordered table-sm mb-0" width="100%">
+    <thead class="thead-dark">
+      <tr class="">
+        <th>#Rank</th>
+        <th>Nama PLTU</th>
+        <th>Nama Pemasok</th>
+        <th>Nilai Akhir</th>
+        <th>Klasifikasi</th>
+        <th>Triwulan</th>
+        <th>Tahun</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mywebsite in data %}
+      <tr class="fit">
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{mywebsite.pltu.nama_pltu}}</td>
+        <td class="align-middle">{{mywebsite.pemasok.nama_pemasok}}</td>
+        <td class="align-middle">{{mywebsite.nilai_akhir}}</td>
+        <td class="align-middle">{{mywebsite.klasifikasi}}</td>
+        <td class="align-middle">{{mywebsite.waktu.triwulan}}</td>
+        <td class="align-middle">{{mywebsite.waktu.tahun|unlocalize}}</td>
+        <td><a href="detailgrading/{{ mywebsite.rekapanpenilaian_id|unlocalize }}"><button type="button" class="btn btn-warning my-1 mr-sm-2"><i class="fas fa-edit">Detail</i></button></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <br>
+{% endblock content-1 %}

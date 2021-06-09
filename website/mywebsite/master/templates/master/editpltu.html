@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block app_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "master/css/styles.css" %}">
+
+{% endblock app_css %}
+
+{% block header %}
+<h1 class="display-4 text-light text-bold">{{judul}}</h1>
+{% endblock header %}
+
+{% block content-2 %}
+<div class="container">
+  <br>
+  {% for master in data1 %}
+  <form method="post" action="updatepltu/{{master.pltu_id}}"  class="form-inline justify-content-center">
+    {% csrf_token %}
+    <div class="form-row">
+        <label class="my-1 mr-sm-2" for="validationDefault05">Nama PLTU : </label>
+        <input type="text" class="form-control my-1 mr-sm-2" name="nama_pltu" value="{{master.nama_pltu}}" required>
+        <label class="my-1 mr-sm-2" for="validationDefault05">kode PLTU: </label>
+        <input type="text" class="form-control my-1 mr-sm-2" name="kode_pltu" value="{{master.kode_pltu}}" required>
+        <button class="btn btn-primary" type="submit">Simpan</button>
+    </div>
+  </form>
+  {% endfor %}
+</div>
+<br>
+{% endblock content-2 %}

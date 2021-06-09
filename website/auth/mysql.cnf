@@ -1,0 +1,5 @@
+[client]
+database = 'db_projectdjango'
+user = 'aksesdbdjango'
+password = 'Inpower2020!'
+default-character-set = 'utf8'
